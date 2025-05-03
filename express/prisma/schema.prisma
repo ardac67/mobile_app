@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Prediction {
+  id              Int      @id @default(autoincrement())
+  sourceIP        String
+  destinationIP   String
+  sourcePort      Int
+  destinationPort Int
+  predictedClass  Json
+  confidence      Float
+  metrics         Json     // <-- NEW Field to hold flow metrics
+  createdAt       DateTime @default(now())
+}
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  level     String   // e.g., "INFO", "ERROR", "DEBUG"
+  message   String
+  timestamp DateTime @default(now())
+}
